@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace PortalNotas.Models
 {
@@ -12,6 +13,9 @@ namespace PortalNotas.Models
         [Required(ErrorMessage = "O email é obrigatório")]
         [EmailAddress(ErrorMessage = "O email não é válido")]
         public string? Email { get; set; }
+
+        public List<Materia> Materias { get; } = new();
+
     }
 }
 

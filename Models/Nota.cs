@@ -15,7 +15,7 @@ namespace PortalNotas.Models
         public int? MateriaId { get; set; }
 
         // Navigation Properties
-        public virtual Aluno Aluno { get; set; }
-        public virtual Materia Materia { get; set; }
+        public virtual Aluno Aluno { get; set; } = new();
+        public virtual Materia Materia { get; set; } = new();
     }
 }

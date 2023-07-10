@@ -36,9 +36,55 @@ namespace PortalNotas.Controllers
 
         // POST api/<AlunoController>
         [HttpPost]
-        public async Task<ActionResult<ServiceResponse<List<GetAlunoDTO>>>> AddAluno(AddAlunoDTO novoAluno)
+        public async Task<ActionResult<ServiceResponse<GetAlunoDTO>>> AddAluno(AddAlunoDTO novoAluno)
         {
-            return Ok(await _alunoService.AddAluno(novoAluno));
+            try
+            {
+                var response = await _alunoService.AddAluno(novoAluno);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+
+            }
+        }
+
+        [HttpPost("Link/")]
+        public async Task<ActionResult<ServiceResponse<GetAlunoDTO>>> LinkAlunoToMateria(LinkMateriaAlunoDTO newLinkMateriaAluno)
+        {
+            try
+            {
+                await _alunoService.LinkAlunoToMateria(newLinkMateriaAluno);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                if (ex is KeyNotFoundException)
+                    return NotFound(ex.Message);
+                if (ex is ArgumentException argumentException)
+                    return BadRequest(argumentException.Message);
+                if (ex is ApplicationException applicationException)
+                    return StatusCode(400, applicationException.Message);
+                return StatusCode(500, ex.Message);
+            }
+
+        }
+
+        [HttpPost("Unlink/")]
+        public async Task<ActionResult> UnlinkAlunoToMateria(LinkMateriaAlunoDTO unlinkMateriaAluno)
+        {
+            try
+            {
+                await _alunoService.UnlinkAlunoToMateria(unlinkMateriaAluno);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                if (ex is KeyNotFoundException)
+                    return NotFound(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
         }
 
         // PUT api/<AlunoController>/5
