@@ -47,8 +47,8 @@
                 if (newAluno is null) throw new ArgumentNullException(nameof(newAluno));
 
                 // Map the new Aluno DTO to an Aluno entity
-                var aluno = new Aluno(newAluno.Nome, newAluno.Email);
-                //var aluno = _mapper.Map<Aluno>(newAluno);
+                //var aluno = new Aluno(newAluno.Nome, newAluno.Email);
+                var aluno = _mapper.Map<Aluno>(newAluno);
 
                 // Add the Aluno entity to the database
                 _context.Alunos.Add(aluno);
