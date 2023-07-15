@@ -2,8 +2,7 @@
 {
     public class UpdateMateriaDTO
     {
-        public string Name { get; set; } = string.Empty;
-        public int ProfessorId { get; set; } = new();
+        public string Name { get; set; } = string.Empty; 
         public int Semestre { get; set; } = new();
     }
 }

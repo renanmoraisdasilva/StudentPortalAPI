@@ -26,12 +26,19 @@ namespace PortalNotas.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<ServiceResponse<GetAlunoDTO>>> GetSingle(int id)
         {
-            var response = await _alunoService.GetAlunoById(id);
-            if (response.Data is null)
+            try
             {
-                return NotFound(response);
+                var response = await _alunoService.GetAlunoById(id);
+                return Ok(response);
             }
-            return Ok(response);
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         // POST api/<AlunoController>
@@ -50,7 +57,7 @@ namespace PortalNotas.Controllers
             }
         }
 
-        [HttpPost("Link/")]
+        [HttpPost("Enroll/")]
         public async Task<ActionResult<ServiceResponse<GetAlunoDTO>>> LinkAlunoToMateria(LinkMateriaAlunoDTO newLinkMateriaAluno)
         {
             try
@@ -58,20 +65,25 @@ namespace PortalNotas.Controllers
                 await _alunoService.LinkAlunoToMateria(newLinkMateriaAluno);
                 return NoContent();
             }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (ApplicationException ex)
+            {
+                return StatusCode(400, ex.Message);
+            }
             catch (Exception ex)
             {
-                if (ex is KeyNotFoundException)
-                    return NotFound(ex.Message);
-                if (ex is ArgumentException argumentException)
-                    return BadRequest(argumentException.Message);
-                if (ex is ApplicationException applicationException)
-                    return StatusCode(400, applicationException.Message);
                 return StatusCode(500, ex.Message);
             }
-
         }
 
-        [HttpPost("Unlink/")]
+        [HttpPost("Disenroll/")]
         public async Task<ActionResult> UnlinkAlunoToMateria(LinkMateriaAlunoDTO unlinkMateriaAluno)
         {
             try
@@ -79,10 +91,12 @@ namespace PortalNotas.Controllers
                 await _alunoService.UnlinkAlunoToMateria(unlinkMateriaAluno);
                 return NoContent();
             }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
             catch (Exception ex)
             {
-                if (ex is KeyNotFoundException)
-                    return NotFound(ex.Message);
                 return StatusCode(500, ex.Message);
             }
         }
@@ -91,24 +105,39 @@ namespace PortalNotas.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<ServiceResponse<GetAlunoDTO>>> UpdateAluno(UpdateAlunoDTO aluno, int id)
         {
-            var response = await _alunoService.UpdateAluno(aluno, id);
-            if (response.Data is null)
+            try
             {
-                return NotFound(response);
+                var response = await _alunoService.UpdateAluno(aluno, id);
+                return Ok(response);
             }
-            return Ok(response);
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
         }
 
         // DELETE api/<AlunoController>/5
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteAluno(int id)
         {
-            var response = await _alunoService.DeleteAluno(id);
-            if (response.Success == false)
+            try
             {
-                return NotFound(response);
+                var response = await _alunoService.DeleteAluno(id);
+                return NoContent();
             }
-            return NoContent();
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
     }
 }

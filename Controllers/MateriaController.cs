@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Azure;
+using Microsoft.AspNetCore.Mvc;
 using PortalNotas.Models.DTOs.Materia;
 using PortalNotas.Services.MateriaService;
 
@@ -21,7 +22,12 @@ namespace PortalNotas.Controllers
         [HttpGet]
         public async Task<ActionResult<ServiceResponse<List<GetMateriaFromAlunoDTO>>>> Get()
         {
-            return Ok(await _materiaService.GetAllMaterias());
+            var response = await _materiaService.GetAllMaterias();
+            if (response.Data is null)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
         }
 
         // GET api/<MateriaController>/5
