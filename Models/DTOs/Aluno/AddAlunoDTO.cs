@@ -4,11 +4,10 @@ namespace PortalNotas.Models.DTOs.Aluno
 {
     public class AddAlunoDTO
     {
-        [Required(ErrorMessage = "O nome é obrigatório")]
-        public string? Nome { get; set; }
+        [Required(ErrorMessage = "O campo Nome é obrigatório")]
+        public string Nome { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "O email é obrigatório")]
-        [EmailAddress(ErrorMessage = "O email não é válido")]
-        public string? Email { get; set; }
+        [Required(ErrorMessage = "O campo Email é obrigatório")]
+        public string Email { get; set; } = string.Empty;
     }
 }
