@@ -1,8 +1,4 @@
-﻿using Azure;
-using Microsoft.AspNetCore.Mvc;
-using PortalNotas.Models.DTOs.Materia;
-using PortalNotas.Services.MateriaService;
-
+﻿using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,6 +9,7 @@ namespace PortalNotas.Controllers
     public class MateriaController : ControllerBase
     {
         private readonly IMateriaService _materiaService;
+
         public MateriaController(IMateriaService materiaService)
         {
             this._materiaService = materiaService;
@@ -44,21 +41,45 @@ namespace PortalNotas.Controllers
 
         // POST api/<MateriaController>
         [HttpPost]
-        public async Task<ActionResult<ServiceResponse<List<GetMateriaFromAlunoDTO>>>> AddMateria(AddMateriaDTO novoMateria)
+        public async Task<ActionResult<ServiceResponse<List<GetMateriaFromAlunoDTO>>>> AddMateria(
+            AddMateriaDTO novoMateria
+        )
         {
-            return Ok(await _materiaService.AddMateria(novoMateria));
+            try
+            {
+                var response = await _materiaService.AddMateria(novoMateria);
+                return Ok(response);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         // PUT api/<MateriaController>/5
         [HttpPut("{id}")]
-        public async Task<ActionResult<ServiceResponse<GetMateriaFromAlunoDTO>>> UpdateMateria(UpdateMateriaDTO aluno, int id)
+        public async Task<ActionResult<ServiceResponse<GetMateriaFromAlunoDTO>>> UpdateMateria(
+            UpdateMateriaDTO aluno,
+            int id
+        )
         {
-            var response = await _materiaService.UpdateMateria(aluno, id);
-            if (response.Data is null)
+            try
             {
-                return NotFound(response);
+                var response = await _materiaService.UpdateMateria(aluno, id);
+                return Ok(response);
             }
-            return Ok(response);
+            catch (KeyNotFoundException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         // DELETE api/<MateriaController>/5
