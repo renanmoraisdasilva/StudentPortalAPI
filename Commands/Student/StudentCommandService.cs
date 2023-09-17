@@ -15,7 +15,7 @@ public class StudentCommandService
         _mapper = mapper;
     }
 
-    public async Task<ServiceResponse<GetStudentDTO>> AddStudent(AddStudentDTO newStudent)
+    public async Task AddStudent(AddStudentDTO newStudent)
     {
         var serviceResponse = new ServiceResponse<GetStudentDTO>();
 
@@ -37,8 +37,6 @@ public class StudentCommandService
         // Map the added Student entity back to a GetStudentDTO object
         serviceResponse.Data = _mapper.Map<GetStudentDTO>(student);
         serviceResponse.Success = true;
-
-        return serviceResponse;
     }
 
     public async Task UpdateStudent(UpdateStudentDTO updatedStudent)
@@ -46,11 +44,11 @@ public class StudentCommandService
         try
         {
             using var _context = _contextFactory.CreateDbContext();
-            var dbStudents =
+            var dbStudent =
                 await _context.Students.FirstOrDefaultAsync(item => item.StudentId == updatedStudent.StudentId)
                 ?? throw new KeyNotFoundException("Student not found.");
 
-            _mapper.Map(updatedStudent, dbStudents);
+            _mapper.Map(updatedStudent, dbStudent);
             await _context.SaveChangesAsync();
         }
         catch (Exception)
