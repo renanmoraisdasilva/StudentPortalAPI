@@ -1,35 +1,56 @@
-﻿namespace PortalNotas.Data
+﻿using StudentPortalAPI.Models;
+
+namespace PortalNotas.Data
 {
     public class DataContext : DbContext
     {
-        public DataContext(DbContextOptions<DataContext> options) : base(options) { }
-        public DbSet<Aluno> Alunos { get; set; }
-        public DbSet<Professor> Professores { get; set; }
-        public DbSet<Materia> Materias { get; set; }
-        public DbSet<MateriaAluno> MateriaAluno { get; set; }
+        public DataContext(DbContextOptions<DataContext> options)
+            : base(options) { }
+
+        public DbSet<User> Users { get; set; }
+        public DbSet<Student> Students { get; set; }
+        public DbSet<Professor> Professors { get; set; }
+        public DbSet<Course> Courses { get; set; }
+        public DbSet<CourseEnrollment> CourseEnrollments { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Aluno>()
-                .HasMany(a => a.Materias)
-                .WithMany(m => m.Alunos)
-            .UsingEntity<MateriaAluno>();
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.HasOne(u => u.ProfessorProfile)
+                    .WithOne(p => p.User)
+                    .HasForeignKey<Professor>(p => p.UserId);
 
-            modelBuilder.Entity<Materia>()
-                .Property(e => e.Id)
-                .ValueGeneratedOnAdd();
+                entity.HasOne(u => u.StudentProfile)
+                    .WithOne(sp => sp.User)
+                    .HasForeignKey<Student>(sp => sp.UserId);
 
-            //modelBuilder.Entity<Materia>()
-            //    .HasOne(m => m.Professor)
-            //    .WithMany()
-            //    .HasForeignKey(m => m.ProfessorId)
-            //    .IsRequired(false);
+                entity.HasIndex(u => u.Username)
+                    .IsUnique();
 
-            modelBuilder.Entity<Professor>()
-                .HasMany(p=>p.Materias)
-                .WithOne(m=>m.Professor)
-                .HasForeignKey(m=>m.ProfessorId)
-                .IsRequired(false);
+                entity.HasIndex(u => u.Email)
+                    .IsUnique();
+            });
+
+
+            modelBuilder.Entity<Course>()
+                .HasOne(c => c.Professor)
+                .WithMany(s => s.Courses)
+                .HasForeignKey(c => c.ProfessorId);
+
+            modelBuilder.Entity<CourseEnrollment>(ce =>
+            {
+                ce.HasKey(ce => new { ce.CourseId, ce.StudentId });
+
+                ce.HasOne(ce => ce.Course)
+                    .WithMany(c => c.CourseEnrollments)
+                    .HasForeignKey(ce => ce.CourseId);
+
+                ce.HasOne(ce => ce.Student)
+                    .WithMany(s => s.CourseEnrollments)
+                    .HasForeignKey(ce => ce.StudentId);
+            });
         }
     }
 }
