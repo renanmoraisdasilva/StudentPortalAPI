@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace PortalNotas.Models.DTOs.Course
+namespace StudentPortalAPI.Models.DTOs.Course
 {
     public class AddCourseDTO
     {

@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using PortalNotas;
-using PortalNotas.Commands.Student;
+using StudentPortalAPI.Commands.Student;
+using StudentPortalAPI.Data;
+using StudentPortalAPI.Models.DTOs.Student;
 
 namespace StudentPortalAPI.Tests.Student;
 
@@ -36,26 +37,27 @@ public class StudentCommandServiceTests
 
         var newStudent = new AddStudentDTO
         {
-            Username = "testuser",
+            Username = "teststudent",
             Password = "password123",
-            Email = "testuser@example.com",
+            Email = "teststudent@example.com",
             FirstName = "Test",
             LastName = "User"
         };
 
         // Act
-        Task result = studentCommandService.AddStudent(newStudent);
-        result.Wait();
+        await studentCommandService.AddStudent(newStudent);
 
         // Assert
-        Assert.IsTrue(result.IsCompletedSuccessfully); // Checking that the operation was successful
+        using var assertContext = _contextFactory.CreateDbContext();
 
         // Checking that the new student exists in the database
-        var addedStudent = await context.Users.Include(user => user.StudentProfile).FirstOrDefaultAsync(s => s.Username == newStudent.Username);
+        var addedStudent = await assertContext.Users.Include(user => user.StudentProfile)
+            .FirstOrDefaultAsync(s => s.Username == newStudent.Username);
+
         Assert.IsNotNull(addedStudent);
         Assert.IsNotNull(addedStudent.StudentProfile);
 
-        // Check field values
+        // Checking field values
         Assert.AreEqual(newStudent.Username, addedStudent.Username);
         Assert.AreEqual(newStudent.Password, addedStudent.Password);
         Assert.AreEqual(newStudent.Email, addedStudent.Email);
@@ -70,24 +72,43 @@ public class StudentCommandServiceTests
         using var context = _contextFactory.CreateDbContext();
         var studentCommandService = new StudentCommandService(_mapper, _contextFactory);
 
+        await CreateStudentAsync(studentCommandService, "testStudentUpdate");
+        var newStudent = await context.Students.Include(student => student.User).FirstOrDefaultAsync(s => s.User.Username == "testStudentUpdate") ?? throw new KeyNotFoundException("newStudent not found.");
+
         // New Student information
         var toUpdateStudent = new UpdateStudentDTO
         {
             FirstName = "Test-updated",
-            StudentId = 1,
+            StudentId = newStudent.StudentId,
             LastName = "User-updated"
         };
 
         // Act
         await studentCommandService.UpdateStudent(toUpdateStudent);
 
-        var updatedStudent = await context.Users.Include(user => user.StudentProfile).FirstOrDefaultAsync(s => s.Username == "testuser");
+        // Assert
+        using var assertContext = _contextFactory.CreateDbContext();
+        var updatedStudent = await assertContext.Users.Include(user => user.StudentProfile).FirstOrDefaultAsync(s => s.Username == "testStudentUpdate");
         Assert.IsNotNull(updatedStudent);
         Assert.IsNotNull(updatedStudent.StudentProfile);
 
         // Check field values
         Assert.AreEqual(toUpdateStudent.FirstName, updatedStudent.StudentProfile.FirstName);
         Assert.AreEqual(toUpdateStudent.LastName, updatedStudent.StudentProfile.LastName);
+    }
+
+    private async Task CreateStudentAsync(StudentCommandService studentCommandService, string username)
+    {
+        var newStudent = new AddStudentDTO
+        {
+            Username = username,
+            Password = "password123",
+            Email = $"{username}@example.com",
+            FirstName = "Test",
+            LastName = "User"
+        };
+
+        await studentCommandService.AddStudent(newStudent);
     }
 
 }

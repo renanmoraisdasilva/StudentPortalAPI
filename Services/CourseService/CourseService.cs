@@ -1,4 +1,9 @@
-﻿namespace PortalNotas.Services.CourseService;
+﻿using StudentPortalAPI.Data;
+using StudentPortalAPI.Models;
+using StudentPortalAPI.Models.DTOs.Course;
+using StudentPortalAPI.Models.DTOs.Student;
+
+namespace StudentPortalAPI.Services.CourseService;
 
 public class CourseService : ICourseService
 {

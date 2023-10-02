@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace PortalNotas.Models.DTOs.Student
+namespace StudentPortalAPI.Models.DTOs.Student
 {
     public class UpdateStudentDTO
     {

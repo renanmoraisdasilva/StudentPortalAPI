@@ -1,6 +1,6 @@
-﻿using StudentPortalAPI.Models;
+﻿using StudentPortalAPI.Models.DTOs.Course;
 
-namespace PortalNotas.Models;
+namespace StudentPortalAPI.Models;
 
 public class Course
 {

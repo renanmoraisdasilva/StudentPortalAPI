@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using PortalNotas.Data;
+using StudentPortalAPI.Data;
 
 #nullable disable
 
@@ -22,7 +22,7 @@ namespace StudentPortalAPI.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("PortalNotas.Models.Course", b =>
+            modelBuilder.Entity("StudentPortalAPI.Models.Course", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -53,7 +53,7 @@ namespace StudentPortalAPI.Migrations
                     b.ToTable("Courses");
                 });
 
-            modelBuilder.Entity("PortalNotas.Models.CourseEnrollment", b =>
+            modelBuilder.Entity("StudentPortalAPI.Models.CourseEnrollment", b =>
                 {
                     b.Property<int>("CourseId")
                         .HasColumnType("int");
@@ -176,7 +176,7 @@ namespace StudentPortalAPI.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("PortalNotas.Models.Course", b =>
+            modelBuilder.Entity("StudentPortalAPI.Models.Course", b =>
                 {
                     b.HasOne("StudentPortalAPI.Models.Professor", "Professor")
                         .WithMany("Courses")
@@ -189,9 +189,9 @@ namespace StudentPortalAPI.Migrations
                     b.Navigation("Professor");
                 });
 
-            modelBuilder.Entity("PortalNotas.Models.CourseEnrollment", b =>
+            modelBuilder.Entity("StudentPortalAPI.Models.CourseEnrollment", b =>
                 {
-                    b.HasOne("PortalNotas.Models.Course", "Course")
+                    b.HasOne("StudentPortalAPI.Models.Course", "Course")
                         .WithMany("CourseEnrollments")
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -230,7 +230,7 @@ namespace StudentPortalAPI.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("PortalNotas.Models.Course", b =>
+            modelBuilder.Entity("StudentPortalAPI.Models.Course", b =>
                 {
                     b.Navigation("CourseEnrollments");
                 });

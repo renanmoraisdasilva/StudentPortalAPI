@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using StudentPortalAPI.Models;
+using StudentPortalAPI.Models.DTOs.Student;
+using StudentPortalAPI.Services.StudentService;
 
-namespace PortalNotas.Controllers;
+namespace StudentPortalAPI.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -15,7 +18,7 @@ public class StudentController : ControllerBase
 
     // GET: api/<StudentController>
     [HttpGet]
-    public async Task<ActionResult<ServiceResponse<List<GetStudentDTO>>>> Get()
+    public async Task<ActionResult<ServiceResponse<List<GetStudentDTO>>>> GetAll()
     {
         return Ok(await _studentService.GetAllStudents());
     }
@@ -125,22 +128,4 @@ public class StudentController : ControllerBase
         }
     }
 
-    // DELETE api/<StudentController>/5
-    //[HttpDelete("{username}")]
-    //public async Task<ActionResult> DeleteStudent(string username)
-    //{
-    //    try
-    //    {
-    //        await _studentService.DeleteStudent(username);
-    //        return NoContent();
-    //    }
-    //    catch (KeyNotFoundException ex)
-    //    {
-    //        return NotFound(ex.Message);
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        return StatusCode(500, ex.Message);
-    //    }
-    //}
 }
