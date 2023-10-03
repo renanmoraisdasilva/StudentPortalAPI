@@ -1,4 +1,7 @@
-﻿namespace PortalNotas.Services.StudentService
+﻿using StudentPortalAPI.Models;
+using StudentPortalAPI.Models.DTOs.Student;
+
+namespace StudentPortalAPI.Services.StudentService
 {
     public interface IStudentService
     {
@@ -8,6 +11,5 @@
         Task LinkStudentToCourse(EnrollStudentDTO newLinkCourseStudent);
         Task UnlinkStudentToCourse(EnrollStudentDTO unlinkCourseStudent);
         Task UpdateStudent(UpdateStudentDTO aluno);
-        //Task DeleteStudent(int id);
     }
 }

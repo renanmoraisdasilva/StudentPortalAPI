@@ -35,7 +35,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Commands\Course\" />
     <Folder Include="Migrations\" />
     <Folder Include="Queries\Course\" />
   </ItemGroup>

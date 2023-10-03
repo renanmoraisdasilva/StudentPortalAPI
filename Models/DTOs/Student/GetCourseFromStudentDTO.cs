@@ -1,6 +1,6 @@
 ﻿using StudentPortalAPI.Models;
 
-namespace PortalNotas.Models.DTOs.Student
+namespace StudentPortalAPI.Models.DTOs.Student
 {
     public class GetCourseFromStudentDTO
     {

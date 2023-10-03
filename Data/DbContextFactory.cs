@@ -12,7 +12,7 @@ public class DbContextFactory : IDbContextFactory
     public DataContext CreateDbContext()
     {
         var optionsBuilder = new DbContextOptionsBuilder<DataContext>();
-        optionsBuilder.UseSqlServer(_configuration.GetConnectionString("PortalNotasContext"));
+        optionsBuilder.UseSqlServer(_configuration.GetConnectionString("StudentPortalAPIContext"));
         return new DataContext(optionsBuilder.Options);
     }
 

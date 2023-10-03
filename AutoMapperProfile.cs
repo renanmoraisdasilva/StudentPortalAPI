@@ -1,6 +1,8 @@
 ﻿using StudentPortalAPI.Models;
+using StudentPortalAPI.Models.DTOs.Course;
+using StudentPortalAPI.Models.DTOs.Student;
 
-namespace PortalNotas
+namespace StudentPortalAPI
 {
     public class AutoMapperProfile : Profile
     {

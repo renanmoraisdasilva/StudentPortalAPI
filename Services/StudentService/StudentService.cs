@@ -1,8 +1,11 @@
 ﻿
-using PortalNotas.Commands.Student;
-using PortalNotas.Queries.Student;
+using StudentPortalAPI.Commands.Student;
+using StudentPortalAPI.Data;
+using StudentPortalAPI.Models;
+using StudentPortalAPI.Models.DTOs.Student;
+using StudentPortalAPI.Queries.Student;
 
-namespace PortalNotas.Services.StudentService;
+namespace StudentPortalAPI.Services.StudentService;
 
 public class StudentService : IStudentService
 {
@@ -50,11 +53,4 @@ public class StudentService : IStudentService
     {
         await _commandService.UnlinkStudentToCourse(UnlinkCourseStudent);
     }
-
-    // Delete an existing Student from the database
-    //public async Task DeleteStudent(int id)
-    //{
-    //    await _commandService.DeleteStudent(id);
-    //}
-
 }

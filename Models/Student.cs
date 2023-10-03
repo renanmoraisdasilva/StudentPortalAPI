@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 namespace StudentPortalAPI.Models;
-
 public class Student
 {
     public int StudentId { get; private set; }

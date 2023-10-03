@@ -1,4 +1,8 @@
-﻿namespace PortalNotas.Queries.Student;
+﻿using StudentPortalAPI.Data;
+using StudentPortalAPI.Models;
+using StudentPortalAPI.Models.DTOs.Student;
+
+namespace StudentPortalAPI.Queries.Student;
 
 public class StudentQueryService
 {

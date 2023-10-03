@@ -1,7 +1,6 @@
-﻿using StudentPortalAPI.Models;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace PortalNotas.Models;
+namespace StudentPortalAPI.Models;
 
 public class CourseEnrollment
 {

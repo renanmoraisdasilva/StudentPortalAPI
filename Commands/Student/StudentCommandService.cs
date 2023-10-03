@@ -1,8 +1,9 @@
-﻿namespace PortalNotas.Commands.Student;
+﻿namespace StudentPortalAPI.Commands.Student;
 
 using Microsoft.EntityFrameworkCore;
-using PortalNotas.Models;
+using StudentPortalAPI.Data;
 using StudentPortalAPI.Models;
+using StudentPortalAPI.Models.DTOs.Student;
 
 public class StudentCommandService
 {
@@ -15,7 +16,7 @@ public class StudentCommandService
         _mapper = mapper;
     }
 
-    public async Task<ServiceResponse<GetStudentDTO>> AddStudent(AddStudentDTO newStudent)
+    public async Task AddStudent(AddStudentDTO newStudent)
     {
         var serviceResponse = new ServiceResponse<GetStudentDTO>();
 
@@ -37,8 +38,6 @@ public class StudentCommandService
         // Map the added Student entity back to a GetStudentDTO object
         serviceResponse.Data = _mapper.Map<GetStudentDTO>(student);
         serviceResponse.Success = true;
-
-        return serviceResponse;
     }
 
     public async Task UpdateStudent(UpdateStudentDTO updatedStudent)
@@ -46,11 +45,11 @@ public class StudentCommandService
         try
         {
             using var _context = _contextFactory.CreateDbContext();
-            var dbStudents =
+            var dbStudent =
                 await _context.Students.FirstOrDefaultAsync(item => item.StudentId == updatedStudent.StudentId)
                 ?? throw new KeyNotFoundException("Student not found.");
 
-            _mapper.Map(updatedStudent, dbStudents);
+            _mapper.Map(updatedStudent, dbStudent);
             await _context.SaveChangesAsync();
         }
         catch (Exception)
@@ -62,6 +61,7 @@ public class StudentCommandService
     public async Task LinkStudentToCourse(EnrollStudentDTO newCourseEnrollment)
     {
         using var _context = _contextFactory.CreateDbContext();
+
         var student =
             await _context.Students
                 .FirstOrDefaultAsync(a => a.StudentId == newCourseEnrollment.StudentId)
@@ -78,7 +78,7 @@ public class StudentCommandService
                 && (e.EnrollmentDate < DateTime.Now || e.DisenrollmentDate > DateTime.Now)
         );
         if (enrollment is not null)
-            throw new ApplicationException("Student is already enrolled.");
+            throw new ApplicationException("Student is already enrolled in this course.");
 
         var newEnrollment = CourseEnrollment.Create(newCourseEnrollment.CourseId, newCourseEnrollment.StudentId, DateTime.Now);
 
@@ -86,14 +86,12 @@ public class StudentCommandService
         using var transaction = await _context.Database.BeginTransactionAsync();
         try
         {
-            // Add the new CourseEnrollment relationship to the database
             await _context.CourseEnrollments.AddAsync(newEnrollment);
             await _context.SaveChangesAsync();
             await transaction.CommitAsync();
         }
         catch
         {
-            // Rollback the transaction in case of an error
             await transaction.RollbackAsync();
             throw;
         }
@@ -102,43 +100,15 @@ public class StudentCommandService
     public async Task UnlinkStudentToCourse(EnrollStudentDTO UnlinkCourseEnrollment)
     {
         using var _context = _contextFactory.CreateDbContext();
-        // Find the CourseEnrollment link in the database
+
         var link =
             await _context.CourseEnrollments.FirstOrDefaultAsync(
                 ma =>
                     ma.StudentId == UnlinkCourseEnrollment.StudentId
                     && ma.CourseId == UnlinkCourseEnrollment.CourseId
-            ) ?? throw new KeyNotFoundException("Link não encontrado.");
+            ) ?? throw new KeyNotFoundException("Link not found.");
 
-        // Remove the CourseEnrollment link from the database
         _context.CourseEnrollments.Remove(link);
         await _context.SaveChangesAsync();
     }
-
-    //public async Task DeleteStudent(string username)
-    //{
-    //    try
-    //    {
-    //        // Find the Student in the database by ID
-    //        var dbStudent =
-    //            await _context.Students
-    //            .Include(a => a.CourseEnrollments)
-    //            .Include(a => a.User)
-    //            .FirstOrDefaultAsync(item => item.User.Username == username)
-    //            ?? throw new KeyNotFoundException("Student não encontrado");
-
-    //        // Remove the Student from the database
-    //        _context.Students.Remove(dbStudent);
-    //        await _context.SaveChangesAsync();
-
-    //        // Set the response data and success status
-    //        serviceResponse.Success = true;
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        serviceResponse.Success = false;
-    //        serviceResponse.Message = ex.Message;
-    //    }
-    //    return serviceResponse;
-    //}
 }
