@@ -14,7 +14,8 @@ namespace StudentPortalAPI
             CreateMap<UpdateStudentDTO, Student>();
 
             CreateMap<Course, GetCourseDTO>();
-            CreateMap<Course, GetCourseFromStudentDTO>();
+            CreateMap<Course, CourseinfoDTO>();
+            CreateMap<Professor, ProfessorInfoDTO>();
             CreateMap<AddCourseDTO, Course>();
             CreateMap<UpdateCourseDTO, Course>();
         }

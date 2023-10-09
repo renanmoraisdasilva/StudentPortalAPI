@@ -2,7 +2,7 @@
 
 namespace StudentPortalAPI.Models.DTOs.Student
 {
-    public class GetCourseFromStudentDTO
+    public class CourseinfoDTO
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;

@@ -2,7 +2,7 @@
 using StudentPortalAPI.Models;
 using StudentPortalAPI.Models.DTOs.Student;
 
-namespace StudentPortalAPI.Queries.Student;
+namespace StudentPortalAPI.Services.StudentService.Queries;
 
 public class StudentQueryService
 {

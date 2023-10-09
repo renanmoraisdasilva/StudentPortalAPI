@@ -1,9 +1,8 @@
-﻿
-using StudentPortalAPI.Commands.Student;
-using StudentPortalAPI.Data;
+﻿using StudentPortalAPI.Data;
 using StudentPortalAPI.Models;
 using StudentPortalAPI.Models.DTOs.Student;
-using StudentPortalAPI.Queries.Student;
+using StudentPortalAPI.Services.StudentService.Commands;
+using StudentPortalAPI.Services.StudentService.Queries;
 
 namespace StudentPortalAPI.Services.StudentService;
 

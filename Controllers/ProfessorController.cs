@@ -1,6 +1,5 @@
-﻿namespace StudentPortalAPI.Controllers
+﻿namespace StudentPortalAPI.Controllers;
+public class ProfessorController
 {
-    public class ProfessorController
-    {
-    }
 }
+

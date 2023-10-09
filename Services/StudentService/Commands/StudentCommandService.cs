@@ -1,4 +1,4 @@
-﻿namespace StudentPortalAPI.Commands.Student;
+﻿namespace StudentPortalAPI.Services.StudentService.Commands;
 
 using Microsoft.EntityFrameworkCore;
 using StudentPortalAPI.Data;

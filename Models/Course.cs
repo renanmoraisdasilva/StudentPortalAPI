@@ -20,7 +20,7 @@ public class Course
     public int Id { get; private set; }
     public string CourseName { get; private set; } = string.Empty;
     public int? ProfessorId { get; private set; }
-    public Professor? Professor { get; private set; }
+    public Professor? Professor { get; set; }
     public string Semester { get; private set; }
     public ICollection<CourseEnrollment> CourseEnrollments { get; private set; } = new List<CourseEnrollment>();
 
