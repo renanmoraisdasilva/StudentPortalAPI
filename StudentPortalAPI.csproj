@@ -7,19 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Commands\NewFolder\**" />
-    <Content Remove="Commands\NewFolder\**" />
-    <EmbeddedResource Remove="Commands\NewFolder\**" />
-    <None Remove="Commands\NewFolder\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="coverlet.collector" Version="6.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.11" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.5" />
@@ -36,7 +31,8 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
-    <Folder Include="Queries\Course\" />
+    <Folder Include="Services\UserService\Commands\" />
+    <Folder Include="Services\UserService\Queries\" />
   </ItemGroup>
 
 </Project>

@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using StudentPortalAPI.Commands.Student;
 using StudentPortalAPI.Data;
 using StudentPortalAPI.Models.DTOs.Student;
+using StudentPortalAPI.Services.StudentService.Commands;
 
 namespace StudentPortalAPI.Tests.Student;
 

@@ -44,11 +44,11 @@ public class StudentController : ControllerBase
 
     // POST api/<StudentController>
     [HttpPost]
-    public async Task<ActionResult> AddStudent(AddStudentDTO novoStudent)
+    public async Task<ActionResult> AddStudent(AddStudentDTO newStudent)
     {
         try
         {
-            await _studentService.AddStudent(novoStudent);
+            await _studentService.AddStudent(newStudent);
             return NoContent();
         }
         catch (ArgumentNullException ex)
