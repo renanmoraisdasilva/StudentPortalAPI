@@ -17,11 +17,11 @@ public class Professor
     public int UserId { get; private set; }
     public User User { get; private set; }
 
-    public ICollection<Course> Courses { get; private set; } = new List<Course>();
+    public List<Course> Courses { get; private set; } = new List<Course>();
 
     private Professor() { }
 
-    public static Professor CreateNewProfessor(string username, string password, string email, string firstName, string lastName)
+    public static Professor Create(string username, string password, string email, string firstName, string lastName)
     {
         var professor = new Professor
         {
@@ -35,21 +35,21 @@ public class Professor
     public void AddCourse(Course course)
     {
         // Check if the professor is not already associated with the course
-        if (!Courses.Contains(course))
-        {
-            Courses.Add(course);
-            course.AddProfessor(this); // Link the course to the professor
-        }
+        //if (!Courses.Contains(course))
+        //{
+        //    Courses.Add(course);
+        //    course.AddProfessor(this); // Link the course to the professor
+        //}
     }
 
     public void RemoveCourse(Course course)
     {
         // Check if the professor is associated with the course
-        if (Courses.Contains(course))
-        {
-            Courses.Remove(course);
-            course.RemoveProfessor(this); // Unlink the course from the professor
-        }
+        //if (Courses.Contains(course))
+        //{
+        //    Courses.Remove(course);
+        //    course.RemoveProfessor(this); // Unlink the course from the professor
+        //}
     }
 
 }

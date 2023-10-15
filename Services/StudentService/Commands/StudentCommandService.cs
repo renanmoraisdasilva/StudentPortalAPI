@@ -18,7 +18,6 @@ public class StudentCommandService
 
     public async Task AddStudent(AddStudentDTO newStudent)
     {
-        var serviceResponse = new ServiceResponse<GetStudentDTO>();
 
         if (newStudent is null)
             throw new ArgumentNullException("There are missing fields.");
@@ -34,10 +33,6 @@ public class StudentCommandService
         _context.Students.Add(student);
 
         await _context.SaveChangesAsync();
-
-        // Map the added Student entity back to a GetStudentDTO object
-        serviceResponse.Data = _mapper.Map<GetStudentDTO>(student);
-        serviceResponse.Success = true;
     }
 
     public async Task UpdateStudent(UpdateStudentDTO updatedStudent)

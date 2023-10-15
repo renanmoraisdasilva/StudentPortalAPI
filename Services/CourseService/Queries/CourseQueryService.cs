@@ -14,7 +14,7 @@ public class CourseQueryService
         _mapper = mapper;
         _contextFactory = contextFactory;
     }
-    // Retrieve all Courses from the database, including related Professor and Student entities
+
     public async Task<ServiceResponse<List<GetCourseDTO>>> GetAllCourses()
     {
         var serviceResponse = new ServiceResponse<List<GetCourseDTO>>();
@@ -32,21 +32,9 @@ public class CourseQueryService
             {
                 Id = course.Id,
                 CourseName = course.CourseName,
-                Professor = course.Professor != null ? new ProfessorInfoDTO
-                {
-                    FirstName = course.Professor.FirstName,
-                    LastName = course.Professor.LastName,
-                    ProfessorId = course.Professor.ProfessorId,
-                    UserId = course.Professor.UserId
-                } : null,
+                Professor = _mapper.Map<ProfessorInfoDTO>(course.Professor),
                 Semester = course.Semester,
-                Students = course.CourseEnrollments.Select(ce => new StudentInfoDTO
-                {
-                    Id = ce.Student.StudentId,
-                    FirstName = ce.Student.FirstName,
-                    LastName = ce.Student.LastName
-                })
-                .ToList()
+                Students = course.CourseEnrollments.Select(ce => _mapper.Map<StudentInfoDTO>(ce.Student)).ToList(),
             }).ToList();
 
             serviceResponse.Data = courses;
@@ -59,7 +47,7 @@ public class CourseQueryService
         }
         return serviceResponse;
     }
-    // Retrieve a specific Course by ID from the database, including related Professor and Student entities
+
     public async Task<ServiceResponse<GetCourseDTO>> GetCourseById(int id)
     {
         var serviceResponse = new ServiceResponse<GetCourseDTO>();
@@ -83,21 +71,9 @@ public class CourseQueryService
             {
                 Id = dbCourse.Id,
                 CourseName = dbCourse.CourseName,
-                Professor = dbCourse.Professor != null ? new ProfessorInfoDTO
-                {
-                    FirstName = dbCourse.Professor.FirstName,
-                    LastName = dbCourse.Professor.LastName,
-                    ProfessorId = dbCourse.Professor.ProfessorId,
-                    UserId = dbCourse.Professor.UserId
-                } : null,
+                Professor = _mapper.Map<ProfessorInfoDTO>(dbCourse.Professor),
                 Semester = dbCourse.Semester,
-                Students = dbCourse.CourseEnrollments.Select(ce => new StudentInfoDTO
-                {
-                    Id = ce.Student.StudentId,
-                    FirstName = ce.Student.FirstName,
-                    LastName = ce.Student.LastName
-                })
-            .ToList()
+                Students = dbCourse.CourseEnrollments.Select(ce => _mapper.Map<StudentInfoDTO>(ce.Student)).ToList(),
             };
 
             serviceResponse.Data = course;
@@ -110,7 +86,7 @@ public class CourseQueryService
         }
         return serviceResponse;
     }
-    // Retrieve all Courses from the database, including related Professor and Student entities
+
     public async Task<ServiceResponse<List<GetCourseDTO>>> GetCoursesByProfessorId(int professorId)
     {
         var serviceResponse = new ServiceResponse<List<GetCourseDTO>>();
@@ -128,21 +104,9 @@ public class CourseQueryService
             {
                 Id = course.Id,
                 CourseName = course.CourseName,
-                Professor = course.Professor != null ? new ProfessorInfoDTO
-                {
-                    FirstName = course.Professor.FirstName,
-                    LastName = course.Professor.LastName,
-                    ProfessorId = course.Professor.ProfessorId,
-                    UserId = course.Professor.UserId
-                } : null,
+                Professor = _mapper.Map<ProfessorInfoDTO>(course.Professor),
                 Semester = course.Semester,
-                Students = course.CourseEnrollments.Select(ce => new StudentInfoDTO
-                {
-                    Id = ce.Student.StudentId,
-                    FirstName = ce.Student.FirstName,
-                    LastName = ce.Student.LastName
-                })
-                .ToList()
+                Students = course.CourseEnrollments.Select(ce => _mapper.Map<StudentInfoDTO>(ce.Student)).ToList(),
             }).ToList();
 
             serviceResponse.Data = courses;

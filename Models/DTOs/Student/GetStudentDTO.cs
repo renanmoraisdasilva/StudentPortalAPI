@@ -1,12 +1,11 @@
-﻿namespace StudentPortalAPI.Models.DTOs.Student
+﻿namespace StudentPortalAPI.Models.DTOs.Student;
+public class GetStudentDTO
 {
-    public class GetStudentDTO
-    {
-        public int StudentId { get; set; }
-        public string UserName { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Email { get; set; }
-        public List<CourseinfoDTO> CourseEnrollments { get; set; } = new();
-    }
+    public int StudentId { get; set; }
+    public string UserName { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public string Email { get; set; }
+    public List<CourseInfoDTO> CourseEnrollments { get; set; } = new();
 }
+

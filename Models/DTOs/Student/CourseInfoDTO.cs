@@ -1,12 +1,9 @@
-﻿using StudentPortalAPI.Models;
-
-namespace StudentPortalAPI.Models.DTOs.Student
+﻿namespace StudentPortalAPI.Models.DTOs.Student
 {
-    public class CourseinfoDTO
+    public class CourseInfoDTO
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
-        public int Semestre { get; set; } = new();
-        public Professor? Professor { get; set; }
+        public string Semester { get; set; } = string.Empty;
     }
 }
